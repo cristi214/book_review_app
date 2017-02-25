@@ -7,6 +7,11 @@
   <div class="col-md-8">
     <h2><%= @book.title %></h2>
     <h3><%= @book.author %></h3>
+    
+    <h4>Review rating</h4>
+    <div class="average-review-rating" data-score=<%= @average_rating %> ></div>
+    <span>Based on <%= @book.reviews.count %> reviews.</span>
+    
     <h4>Category: <%= @book.category.name %></h4>
     <p><%= @book.description %></p>  
   </div>
@@ -16,7 +21,13 @@
 <div class="row">
   
   <div class="col-md-4">
-    <!--where the reviews will go -->
+    
+    <%= render @book.reviews %>
+    
+    <div>
+      <%= link_to 'Add review', new_book_review_path(@book) %>  
+    </div>
+    
   </div>
   
 </div>
@@ -28,3 +39,22 @@
   <%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: "Are you sure?" } %>
 <% end %>
 
+<script>
+  $('.review-rating').raty({
+    readOnly: true,
+    score: function(){
+      return $(this).attr('data-score')
+    },
+    path: '/assets'
+  });
+</script>
+
+<script>
+  $('.average-review-rating').raty({
+    readOnly: true,
+    score: function(){
+      return $(this).attr('data-score')
+    },
+    path: '/assets'
+  });
+</script>
